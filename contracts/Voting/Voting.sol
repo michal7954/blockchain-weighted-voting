@@ -10,6 +10,7 @@ contract Voting is Counting {
 
     function vote(uint256 votingOption)
         external
+        virtual
         votingIsActive
         senderCanVote
         correctVotingOption(votingOption)

@@ -5,18 +5,16 @@ pragma solidity >=0.7.0 <0.9.0;
 import "hardhat/console.sol";
 import "contracts/Voting/Voting.sol";
 
-interface ValueSourceInterface {
-    function getValue(address address_) external view returns (uint256);
-}
 
-contract ExplicitValueWeightedVoting is Voting {
+// TODO Oracle required
+contract NFTExplicitValueWeightedVoting is Voting {
     address internal valueSourceAddress;
 
     constructor(address valueSourceAddress_) {
         valueSourceAddress = valueSourceAddress_;
     }
 
-    function getWeight() internal view override returns (uint256) {
-        return ValueSourceInterface(valueSourceAddress).getValue(msg.sender);
+    function getWeight() internal pure override returns (uint256) {
+        return 1;
     }
 }
