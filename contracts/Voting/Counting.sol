@@ -20,7 +20,7 @@ contract Counting is Votes {
             results[i] = Result(votingOptions[i], 0);
         }
 
-        for (uint256 i = 0; i < votes.length; i++) {
+        for (uint64 i = 0; i < votes.length; i++) {
             results[votes[i].votingOption].votesCount += votes[i].weight;
         }
 

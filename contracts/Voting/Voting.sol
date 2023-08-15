@@ -8,7 +8,7 @@ import "contracts/Voting/Counting.sol";
 contract Voting is Counting {
     constructor() {}
 
-    function vote(uint256 votingOption)
+    function vote(uint8 votingOption)
         external
         virtual
         votingIsActive
@@ -19,7 +19,7 @@ contract Voting is Counting {
         votes.push(Vote(msg.sender, votingOption, getWeight()));
     }
 
-    function getWeight() internal virtual returns (uint256) {
+    function getWeight() internal virtual returns (uint192) {
         return 1;
     }
 }

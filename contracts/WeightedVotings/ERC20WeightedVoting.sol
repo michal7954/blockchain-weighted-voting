@@ -13,7 +13,7 @@ contract ERC20WeightedVoting is Voting {
         tokenInterface = IERC20(ERC20Address_);
     }
 
-    function getWeight() internal view override returns (uint256) {
-        return tokenInterface.balanceOf(msg.sender);
+    function getWeight() internal view override returns (uint192) {
+        return _cast(tokenInterface.balanceOf(msg.sender));
     }
 }

@@ -9,7 +9,7 @@ import "contracts/Voting/Voting.sol";
 contract NFTExplicitValueWeightedVoting is Voting {
     constructor(address valueSourceAddress_) {}
 
-    function getWeight() internal pure override returns (uint256) {
+    function getWeight() internal pure override returns (uint192) {
         return 1;
     }
 }

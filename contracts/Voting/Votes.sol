@@ -9,8 +9,8 @@ import "contracts/Voting/Voters.sol";
 contract Votes is VotingOptions, Voters {
     struct Vote {
         address voter;
-        uint256 votingOption;
-        uint256 weight;
+        uint8 votingOption;
+        uint192 weight;
     }
     Vote[] internal votes;
 

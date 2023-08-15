@@ -12,7 +12,7 @@ contract VotingOptions is VotingProperties {
         votingOptions = ["A", "B", "C"];
     }
 
-    modifier correctVotingOption(uint256 votingOption) {
+    modifier correctVotingOption(uint8 votingOption) {
         require(votingOption < votingOptions.length, "Incorrect voting option - index out of range");
         require(
             bytes(votingOptions[votingOption]).length > 0,
@@ -35,7 +35,7 @@ contract VotingOptions is VotingProperties {
         }
     }
 
-    function removeVotingOptions(uint256[] calldata votingOptionsToRemove)
+    function removeVotingOptions(uint8[] calldata votingOptionsToRemove)
         external
         onlyOwner
         votingIsUnready

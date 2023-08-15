@@ -6,7 +6,7 @@ import "hardhat/console.sol";
 import "contracts/Voting/Voting.sol";
 
 interface WeightSourceInterface {
-    function getValue(address address_) external view returns (uint256);
+    function getValue(address address_) external view returns (uint192);
 }
 
 contract ExplicitValueWeightedVoting is Voting {
@@ -16,7 +16,7 @@ contract ExplicitValueWeightedVoting is Voting {
         weightSourceInterface = WeightSourceInterface(valueSourceAddress_);
     }
 
-    function getWeight() internal view override returns (uint256) {
+    function getWeight() internal view override returns (uint192) {
         return weightSourceInterface.getValue(msg.sender);
     }
 }

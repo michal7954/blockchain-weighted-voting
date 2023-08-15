@@ -3,10 +3,10 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
-// import "contracts/Voting/Ownable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "contracts/Voting/Maths.sol";
 
-contract VotingProperties is Ownable {
+contract VotingProperties is Ownable, Maths {
     enum VotingState {
         Unready,
         Active,

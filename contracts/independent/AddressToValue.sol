@@ -6,7 +6,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AddressToValue is Ownable {
-    mapping(address => uint256) values;
+    mapping(address => uint192) values;
 
     constructor() {
         values[0x5B38Da6a701c568545dCfcB03FcB875f56beddC4] = 3;
@@ -14,11 +14,11 @@ contract AddressToValue is Ownable {
         values[0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db] = 1;
     }
 
-    function setValue(address address_, uint256 value) external onlyOwner {
+    function setValue(address address_, uint192 value) external onlyOwner {
         values[address_] = value;
     }
 
-    function getValue(address address_) public view returns (uint256) {
+    function getValue(address address_) public view returns (uint192) {
         return values[address_];
     }
 }

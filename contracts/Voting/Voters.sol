@@ -19,7 +19,7 @@ contract Voters is VotingProperties {
             0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db
         ];
 
-        for (uint8 i = 0; i < addresses.length; i++) {
+        for (uint64 i = 0; i < addresses.length; i++) {
             voters[addresses[i]] = Voter(true, false);
         }
     }
@@ -35,7 +35,7 @@ contract Voters is VotingProperties {
         onlyOwner
         votingIsUnready
     {
-        for (uint8 i = 0; i < votersToAdd.length; i++) {
+        for (uint64 i = 0; i < votersToAdd.length; i++) {
             voters[votersToAdd[i]] = Voter(true, false);
         }
     }
@@ -45,7 +45,7 @@ contract Voters is VotingProperties {
         onlyOwner
         votingIsUnready
     {
-        for (uint8 i = 0; i < votersToRemove.length; i++) {
+        for (uint64 i = 0; i < votersToRemove.length; i++) {
             delete voters[votersToRemove[i]];
         }
     }

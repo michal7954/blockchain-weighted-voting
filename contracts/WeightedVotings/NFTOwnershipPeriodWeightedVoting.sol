@@ -21,13 +21,13 @@ contract NFTOwnershipPeriodWeightedVoting is Voting {
         votingNFTInterface = VotingNFTInterface(valueSourceAddress_);
     }
 
-    function vote(uint256) external view override votingIsActive senderCanVote {
+    function vote(uint8) external view override votingIsActive senderCanVote {
         revert(
             "No tokenId has been passed which is required for NFT weighted voting"
         );
     }
 
-    function vote(uint256 votingOption, uint256 tokenId)
+    function vote(uint8 votingOption, uint256 tokenId)
         external
         votingIsActive
         senderCanVote
@@ -37,13 +37,15 @@ contract NFTOwnershipPeriodWeightedVoting is Voting {
         votes.push(Vote(msg.sender, votingOption, getWeight(tokenId)));
     }
 
-    function getWeight(uint256 tokenId) internal view returns (uint256) {
+    function getWeight(uint256 tokenId) internal view returns (uint192) {
         require(
             votingNFTInterface.ownerOf(tokenId) == msg.sender,
             "Sender is not the owner of given token"
         );
         return
-            block.timestamp -
-            votingNFTInterface.getLastTransferTimestamp(tokenId);
+            _cast(
+                block.timestamp -
+                    votingNFTInterface.getLastTransferTimestamp(tokenId)
+            );
     }
 }
