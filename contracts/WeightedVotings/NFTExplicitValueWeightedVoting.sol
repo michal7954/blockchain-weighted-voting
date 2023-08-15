@@ -5,14 +5,9 @@ pragma solidity >=0.7.0 <0.9.0;
 import "hardhat/console.sol";
 import "contracts/Voting/Voting.sol";
 
-
 // TODO Oracle required
 contract NFTExplicitValueWeightedVoting is Voting {
-    address internal valueSourceAddress;
-
-    constructor(address valueSourceAddress_) {
-        valueSourceAddress = valueSourceAddress_;
-    }
+    constructor(address valueSourceAddress_) {}
 
     function getWeight() internal pure override returns (uint256) {
         return 1;

@@ -5,18 +5,18 @@ pragma solidity >=0.7.0 <0.9.0;
 import "hardhat/console.sol";
 import "contracts/Voting/Voting.sol";
 
-interface ValueSourceInterface {
+interface WeightSourceInterface {
     function getValue(address address_) external view returns (uint256);
 }
 
 contract ExplicitValueWeightedVoting is Voting {
-    address internal valueSourceAddress;
+    WeightSourceInterface internal weightSourceInterface;
 
     constructor(address valueSourceAddress_) {
-        valueSourceAddress = valueSourceAddress_;
+        weightSourceInterface = WeightSourceInterface(valueSourceAddress_);
     }
 
     function getWeight() internal view override returns (uint256) {
-        return ValueSourceInterface(valueSourceAddress).getValue(msg.sender);
+        return weightSourceInterface.getValue(msg.sender);
     }
 }

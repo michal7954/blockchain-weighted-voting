@@ -7,13 +7,13 @@ import "contracts/Voting/Voting.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract ERC20WeightedVoting is Voting {
-    address internal ERC20Address;
+    IERC20 internal tokenInterface;
 
     constructor(address ERC20Address_) {
-        ERC20Address = ERC20Address_;
+        tokenInterface = IERC20(ERC20Address_);
     }
 
     function getWeight() internal view override returns (uint256) {
-        return IERC20(ERC20Address).balanceOf(msg.sender);
+        return tokenInterface.balanceOf(msg.sender);
     }
 }
