@@ -12,8 +12,18 @@ contract Votes is VotingOptions, Voters {
         uint8 votingOption;
         uint192 weight;
     }
-    
+
     Vote[] internal _votes;
 
     constructor() {}
+
+    function resetVoting() external onlyOwner votingIsEnded {
+        _votingState = VotingState.Unready;
+
+        for (uint64 i = 0; i < _votes.length; i++) {
+            _voters[_votes[i].voter].voted = false;
+        }
+
+        delete _votes;
+    }
 }
