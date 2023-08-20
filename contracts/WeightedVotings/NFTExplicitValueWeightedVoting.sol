@@ -7,9 +7,9 @@ import "contracts/Voting/Voting.sol";
 
 // TODO Oracle required
 contract NFTExplicitValueWeightedVoting is Voting {
-    constructor(address valueSourceAddress_) {}
+    constructor(address contractAddress) {}
 
-    function getWeight() internal pure override returns (uint192) {
+    function _getWeight() internal pure override returns (uint192) {
         return 1;
     }
 }

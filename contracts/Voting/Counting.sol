@@ -14,14 +14,14 @@ contract Counting is Votes {
     constructor() {}
 
     function getResults() public view votingIsEnded returns (Result[] memory) {
-        Result[] memory results = new Result[](votingOptions.length);
+        Result[] memory results = new Result[](_votingOptions.length);
 
-        for (uint8 i = 0; i < votingOptions.length; i++) {
-            results[i] = Result(votingOptions[i], 0);
+        for (uint8 i = 0; i < _votingOptions.length; i++) {
+            results[i] = Result(_votingOptions[i], 0);
         }
 
-        for (uint64 i = 0; i < votes.length; i++) {
-            results[votes[i].votingOption].votesCount += votes[i].weight;
+        for (uint64 i = 0; i < _votes.length; i++) {
+            results[_votes[i].votingOption].votesCount += _votes[i].weight;
         }
 
         return results;

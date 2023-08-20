@@ -15,10 +15,10 @@ interface VotingNFTInterface {
 }
 
 contract NFTOwnershipPeriodWeightedVoting is Voting {
-    VotingNFTInterface internal votingNFTInterface;
+    VotingNFTInterface internal _votingNFTInterface;
 
-    constructor(address valueSourceAddress_) {
-        votingNFTInterface = VotingNFTInterface(valueSourceAddress_);
+    constructor(address contractAddress) {
+        _votingNFTInterface = VotingNFTInterface(contractAddress);
     }
 
     function vote(uint8) external view override votingIsActive senderCanVote {
@@ -33,19 +33,19 @@ contract NFTOwnershipPeriodWeightedVoting is Voting {
         senderCanVote
         correctVotingOption(votingOption)
     {
-        voters[msg.sender].voted = true;
-        votes.push(Vote(msg.sender, votingOption, getWeight(tokenId)));
+        _voters[msg.sender].voted = true;
+        _votes.push(Vote(msg.sender, votingOption, _getWeight(tokenId)));
     }
 
-    function getWeight(uint256 tokenId) internal view returns (uint192) {
+    function _getWeight(uint256 tokenId) internal view returns (uint192) {
         require(
-            votingNFTInterface.ownerOf(tokenId) == msg.sender,
+            _votingNFTInterface.ownerOf(tokenId) == msg.sender,
             "Sender is not the owner of given token"
         );
         return
             _cast(
                 block.timestamp -
-                    votingNFTInterface.getLastTransferTimestamp(tokenId)
+                    _votingNFTInterface.getLastTransferTimestamp(tokenId)
             );
     }
 }

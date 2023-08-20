@@ -5,6 +5,8 @@ pragma solidity >=0.7.0 <0.9.0;
 import "hardhat/console.sol";
 
 contract Deposit {
+    constructor() {}
+
     function deposit() external payable {}
 
     function transfer(uint256 amount) external {

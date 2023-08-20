@@ -12,7 +12,7 @@ contract Votes is VotingOptions, Voters {
         uint8 votingOption;
         uint192 weight;
     }
-    Vote[] internal votes;
+    Vote[] internal _votes;
 
     constructor() {}
 }

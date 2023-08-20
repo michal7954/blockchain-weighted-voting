@@ -8,7 +8,7 @@ import "contracts/Voting/Voting.sol";
 contract EthereumWeightedVoting is Voting {
     constructor() {}
 
-    function getWeight() internal view override returns (uint192) {
+    function _getWeight() internal view override returns (uint192) {
         return _cast(msg.sender.balance);
     }
 }

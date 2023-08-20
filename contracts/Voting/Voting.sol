@@ -15,11 +15,11 @@ contract Voting is Counting {
         senderCanVote
         correctVotingOption(votingOption)
     {
-        voters[msg.sender].voted = true;
-        votes.push(Vote(msg.sender, votingOption, getWeight()));
+        _voters[msg.sender].voted = true;
+        _votes.push(Vote(msg.sender, votingOption, _getWeight()));
     }
 
-    function getWeight() internal virtual returns (uint192) {
+    function _getWeight() internal virtual returns (uint192) {
         return 1;
     }
 }

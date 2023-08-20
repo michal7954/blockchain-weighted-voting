@@ -18,7 +18,7 @@ contract VotingNFTCollection is ERC721, Ownable {
             "https://ipfs.io/ipfs/QmXN7J5w8tmjfU3H8Gb9ku9Ug7Lvwp68VzJ6JSYTkU4KcF/";
     }
 
-    function safeMint(address to, uint256 tokenId) public onlyOwner {
+    function safeMint(address to, uint256 tokenId) external onlyOwner {
         _safeMint(to, tokenId);
     }
 
@@ -31,7 +31,7 @@ contract VotingNFTCollection is ERC721, Ownable {
     }
 
     function getLastTransferTimestamp(uint256 tokenId)
-        public
+        external
         view
         returns (uint256)
     {

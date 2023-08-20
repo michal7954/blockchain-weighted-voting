@@ -6,23 +6,23 @@ import "hardhat/console.sol";
 import "contracts/Voting/VotingProperties.sol";
 
 contract VotingOptions is VotingProperties {
-    string[] internal votingOptions;
+    string[] internal _votingOptions;
 
     constructor() {
-        votingOptions = ["A", "B", "C"];
+        _votingOptions = ["A", "B", "C"];
     }
 
     modifier correctVotingOption(uint8 votingOption) {
-        require(votingOption < votingOptions.length, "Incorrect voting option - index out of range");
+        require(votingOption < _votingOptions.length, "Incorrect voting option - index out of range");
         require(
-            bytes(votingOptions[votingOption]).length > 0,
+            bytes(_votingOptions[votingOption]).length > 0,
             "Incorrect voting option - removed voting option"
         );
         _;
     }
 
     function getVotingOptions() public view returns (string[] memory) {
-        return votingOptions;
+        return _votingOptions;
     }
 
     function addVotingOptions(string[] calldata votingOptionsToAdd)
@@ -31,7 +31,7 @@ contract VotingOptions is VotingProperties {
         votingIsUnready
     {
         for (uint8 i = 0; i < votingOptionsToAdd.length; i++) {
-            votingOptions.push(votingOptionsToAdd[i]);
+            _votingOptions.push(votingOptionsToAdd[i]);
         }
     }
 
@@ -41,7 +41,7 @@ contract VotingOptions is VotingProperties {
         votingIsUnready
     {
         for (uint8 i = 0; i < votingOptionsToRemove.length; i++) {
-            delete votingOptions[votingOptionsToRemove[i]];
+            delete _votingOptions[votingOptionsToRemove[i]];
         }
     }
 }
