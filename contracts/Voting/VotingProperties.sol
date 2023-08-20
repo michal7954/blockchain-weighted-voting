@@ -15,10 +15,6 @@ contract VotingProperties is Ownable, Maths {
 
     VotingState internal _votingState;
 
-    constructor() {
-        _votingState = VotingState.Unready;
-    }
-
     modifier votingIsUnready() {
         require(_votingState == VotingState.Unready, "Voting has been started");
         _;
@@ -32,6 +28,10 @@ contract VotingProperties is Ownable, Maths {
     modifier votingIsEnded() {
         require(_votingState == VotingState.Ended, "Voting is not ended");
         _;
+    }
+
+    constructor() {
+        _votingState = VotingState.Unready;
     }
 
     function startVoting() external onlyOwner votingIsUnready {

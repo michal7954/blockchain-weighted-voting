@@ -10,7 +10,14 @@ contract Voters is VotingProperties {
         bool canVote;
         bool voted;
     }
+    
     mapping(address => Voter) internal _voters;
+
+    modifier senderCanVote() {
+        require(_voters[msg.sender].canVote, "Account not entitled to vote");
+        require(!_voters[msg.sender].voted, "Account already voted");
+        _;
+    }
 
     constructor() {
         address[3] memory addresses = [
@@ -22,12 +29,6 @@ contract Voters is VotingProperties {
         for (uint64 i = 0; i < addresses.length; i++) {
             _voters[addresses[i]] = Voter(true, false);
         }
-    }
-
-    modifier senderCanVote() {
-        require(_voters[msg.sender].canVote, "Account not entitled to vote");
-        require(!_voters[msg.sender].voted, "Account already voted");
-        _;
     }
 
     function addVoters(address[] calldata votersToAdd)

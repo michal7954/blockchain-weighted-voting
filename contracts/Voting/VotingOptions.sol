@@ -8,12 +8,11 @@ import "contracts/Voting/VotingProperties.sol";
 contract VotingOptions is VotingProperties {
     string[] internal _votingOptions;
 
-    constructor() {
-        _votingOptions = ["A", "B", "C"];
-    }
-
     modifier correctVotingOption(uint8 votingOption) {
-        require(votingOption < _votingOptions.length, "Incorrect voting option - index out of range");
+        require(
+            votingOption < _votingOptions.length,
+            "Incorrect voting option - index out of range"
+        );
         require(
             bytes(_votingOptions[votingOption]).length > 0,
             "Incorrect voting option - removed voting option"
@@ -21,8 +20,8 @@ contract VotingOptions is VotingProperties {
         _;
     }
 
-    function getVotingOptions() public view returns (string[] memory) {
-        return _votingOptions;
+    constructor() {
+        _votingOptions = ["A", "B", "C"];
     }
 
     function addVotingOptions(string[] calldata votingOptionsToAdd)
@@ -43,5 +42,9 @@ contract VotingOptions is VotingProperties {
         for (uint8 i = 0; i < votingOptionsToRemove.length; i++) {
             delete _votingOptions[votingOptionsToRemove[i]];
         }
+    }
+
+    function getVotingOptions() external view returns (string[] memory) {
+        return _votingOptions;
     }
 }
