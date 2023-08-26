@@ -17,9 +17,7 @@ contract Votes is VotingOptions, Voters {
 
     constructor() {}
 
-    function resetVoting() external onlyOwner votingIsEnded {
-        _votingState = VotingState.Unready;
-
+    function resetVoting() external onlyOwner unlockVoting {
         for (uint64 i = 0; i < _votes.length; i++) {
             _voters[_votes[i].voter].voted = false;
         }

@@ -34,7 +34,7 @@ contract Voters is VotingProperties {
     function addVoters(address[] calldata votersToAdd)
         external
         onlyOwner
-        votingIsUnready
+        votingConfigurable
     {
         for (uint64 i = 0; i < votersToAdd.length; i++) {
             _voters[votersToAdd[i]] = Voter(true, false);
@@ -44,7 +44,7 @@ contract Voters is VotingProperties {
     function removeVoters(address[] calldata votersToRemove)
         external
         onlyOwner
-        votingIsUnready
+        votingConfigurable
     {
         for (uint64 i = 0; i < votersToRemove.length; i++) {
             delete _voters[votersToRemove[i]];

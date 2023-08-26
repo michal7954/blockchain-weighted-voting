@@ -24,7 +24,7 @@ contract NFTOwnershipPeriodWeightedVoting is Voting {
 
     function vote(uint8 votingOption, uint256 tokenId)
         external
-        votingIsActive
+        votingOpened
         senderCanVote
         correctVotingOption(votingOption)
     {
@@ -32,7 +32,7 @@ contract NFTOwnershipPeriodWeightedVoting is Voting {
         _votes.push(Vote(msg.sender, votingOption, _getWeight(tokenId)));
     }
 
-    function vote(uint8) external view override votingIsActive senderCanVote {
+    function vote(uint8) external view override votingOpened senderCanVote {
         revert(
             "No tokenId has been passed which is required for NFT weighted voting"
         );

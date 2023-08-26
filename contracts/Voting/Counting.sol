@@ -13,7 +13,7 @@ contract Counting is Votes {
 
     constructor() {}
 
-    function getResults() external view votingIsEnded returns (Result[] memory) {
+    function getResults() external view votingEnded returns (Result[] memory) {
         Result[] memory results = new Result[](_votingOptions.length);
 
         for (uint8 i = 0; i < _votingOptions.length; i++) {

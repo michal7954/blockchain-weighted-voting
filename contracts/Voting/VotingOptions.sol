@@ -27,7 +27,7 @@ contract VotingOptions is VotingProperties {
     function addVotingOptions(string[] calldata votingOptionsToAdd)
         external
         onlyOwner
-        votingIsUnready
+        votingConfigurable
     {
         for (uint8 i = 0; i < votingOptionsToAdd.length; i++) {
             _votingOptions.push(votingOptionsToAdd[i]);
@@ -37,7 +37,7 @@ contract VotingOptions is VotingProperties {
     function removeVotingOptions(uint8[] calldata votingOptionsToRemove)
         external
         onlyOwner
-        votingIsUnready
+        votingConfigurable
     {
         for (uint8 i = 0; i < votingOptionsToRemove.length; i++) {
             delete _votingOptions[votingOptionsToRemove[i]];

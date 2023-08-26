@@ -11,7 +11,7 @@ contract Voting is Counting {
     function vote(uint8 votingOption)
         external
         virtual
-        votingIsActive
+        votingOpened
         senderCanVote
         correctVotingOption(votingOption)
     {

@@ -5,40 +5,78 @@ pragma solidity >=0.7.0 <0.9.0;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "contracts/Voting/Maths.sol";
+import "contracts/Voting/Configuration.sol";
 
-contract VotingProperties is Ownable, Maths {
-    enum VotingState {
-        Unready,
-        Active,
-        Ended
-    }
+contract VotingProperties is Ownable, Maths, Configuration {
+    uint256 internal _votingStartTime;
+    uint256 internal _votingEndTime;
+    bool internal _votingConfigurationLocked;
 
-    VotingState internal _votingState;
-
-    modifier votingIsUnready() {
-        require(_votingState == VotingState.Unready, "Voting has been started");
+    modifier votingConfigurable() {
+        require(_votingConfigurationLocked == false, "Voting is locked");
         _;
     }
 
-    modifier votingIsActive() {
-        require(_votingState == VotingState.Active, "Voting is not active");
+    modifier votingOpened() {
+        require(
+            _votingConfigurationLocked == true &&
+                block.timestamp >= _votingStartTime &&
+                block.timestamp < _votingEndTime,
+            "Voting is not started"
+        );
         _;
     }
 
-    modifier votingIsEnded() {
-        require(_votingState == VotingState.Ended, "Voting is not ended");
+    modifier votingEnded() {
+        require(
+            _votingConfigurationLocked == true &&
+                block.timestamp >= _votingEndTime,
+            "Voting is not ended"
+        );
+        _;
+    }
+
+    modifier unlockVoting() {
+        require(
+            block.timestamp >= _votingEndTime + _minPhaseTime,
+            "Not ready to unlock voting yet"
+        );
+        _votingConfigurationLocked = false;
         _;
     }
 
     constructor() {
-        _votingState = VotingState.Unready;
+        _votingStartTime = block.timestamp + 2 * _minPhaseTime;
+        _votingEndTime = block.timestamp + 3 * _minPhaseTime;
+        _votingConfigurationLocked = false;
     }
 
-    function startVoting() external onlyOwner votingIsUnready {
-        _votingState = VotingState.Active;
+    function setVotingTimes(uint256 startTime, uint256 endTime)
+        external
+        onlyOwner
+    {
+        require(
+            block.timestamp + _minPhaseTime <= startTime,
+            "Lock period before voting start is not long enough"
+        );
+        require(
+            startTime + _minPhaseTime <= endTime,
+            "Voting period is not long enough"
+        );
+
+        _votingStartTime = startTime;
+        _votingEndTime = endTime;
     }
 
-    function endVoting() external onlyOwner votingIsActive {
-        _votingState = VotingState.Ended;
+    function lockVoting() external onlyOwner {
+        require(
+            block.timestamp + _minPhaseTime <= _votingStartTime,
+            "Lock period before voting start is not long enough, you need to change voting times"
+        );
+        _votingConfigurationLocked = true;
+    }
+
+    function getVotingTimes() external view returns (uint256, uint256) {
+        return (_votingStartTime, _votingEndTime);
     }
 }
