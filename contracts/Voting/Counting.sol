@@ -10,9 +10,11 @@ contract Counting is Votes {
         uint256 votesCount;
     }
 
+    event VotingResults(Result[] results);
+
     constructor() {}
 
-    function getResults() external view votingEnded returns (Result[] memory) {
+    function getResults() external votingEnded returns (Result[] memory) {
         Result[] memory results = new Result[](_votingOptions.length);
 
         for (uint8 i = 0; i < _votingOptions.length; i++) {
@@ -23,6 +25,7 @@ contract Counting is Votes {
             results[_votes[i].votingOption].votesCount += _votes[i].weight;
         }
 
+        emit VotingResults(results);
         return results;
     }
 }

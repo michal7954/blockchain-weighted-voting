@@ -12,6 +12,9 @@ contract Voters is VotingProperties {
 
     mapping(address => Voter) internal _voters;
 
+    event VoterAdded(address indexed voterAddress);
+    event VoterRemoved(address indexed voterAddress);
+
     modifier senderCanVote() {
         require(_voters[msg.sender].canVote, "Account not entitled to vote");
         require(!_voters[msg.sender].voted, "Account already voted");
@@ -28,6 +31,7 @@ contract Voters is VotingProperties {
 
             for (uint64 i = 0; i < addresses.length; i++) {
                 _voters[addresses[i]] = Voter(true, false);
+                emit VoterAdded(addresses[i]);
             }
         }
     }
@@ -39,6 +43,7 @@ contract Voters is VotingProperties {
     {
         for (uint64 i = 0; i < votersToAdd.length; i++) {
             _voters[votersToAdd[i]] = Voter(true, false);
+            emit VoterAdded(votersToAdd[i]);
         }
     }
 
@@ -48,7 +53,8 @@ contract Voters is VotingProperties {
         votingConfigurable
     {
         for (uint64 i = 0; i < votersToRemove.length; i++) {
-            delete _voters[votersToRemove[i]];
+            _voters[votersToRemove[i]].canVote = false;
+            emit VoterRemoved(votersToRemove[i]);
         }
     }
 }

@@ -14,6 +14,8 @@ contract Votes is VotingOptions, Voters {
 
     Vote[] internal _votes;
 
+    event VotingReset();
+
     constructor() {}
 
     function resetVoting() external onlyOwner unlockVoting {
@@ -22,5 +24,7 @@ contract Votes is VotingOptions, Voters {
         }
 
         delete _votes;
+
+        emit VotingReset();
     }
 }

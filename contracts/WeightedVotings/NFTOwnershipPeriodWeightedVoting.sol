@@ -13,12 +13,22 @@ interface VotingNFTInterface {
         returns (uint256);
 }
 
-
 contract NFTOwnershipPeriodWeightedVoting is Voting {
     VotingNFTInterface internal _votingNFTInterface;
 
+    event InitVoting(address indexed contractAddress);
+    event VoteCasted(
+        address indexed voter,
+        uint8 indexed votingOption,
+        uint256 indexed tokenId,
+        uint192 weight
+    );
+
+    error ProhibitedVoteFunction(string message);
+
     constructor(address contractAddress) {
         _votingNFTInterface = VotingNFTInterface(contractAddress);
+        emit InitVoting(contractAddress);
     }
 
     function vote(uint8 votingOption, uint256 tokenId)
@@ -28,11 +38,13 @@ contract NFTOwnershipPeriodWeightedVoting is Voting {
         correctVotingOption(votingOption)
     {
         _voters[msg.sender].voted = true;
-        _votes.push(Vote(msg.sender, votingOption, _getWeight(tokenId)));
+        uint192 weight = _getWeight();
+        _votes.push(Vote(msg.sender, votingOption, weight));
+        emit VoteCasted(msg.sender, votingOption, tokenId, weight);
     }
 
     function vote(uint8) external view override votingOpened senderCanVote {
-        revert(
+        revert ProhibitedVoteFunction(
             "No tokenId has been passed which is required for NFT weighted voting"
         );
     }

@@ -11,6 +11,9 @@ contract VotingProperties is Ownable, Maths, Configuration {
     uint256 internal _votingEndTime;
     bool internal _votingConfigurationLocked;
 
+    event NewVotingTimes(uint256 startTime, uint256 endTime);
+    event VotingLocked();
+
     modifier votingConfigurable() {
         if (!_devMode) {
             require(_votingConfigurationLocked == false, "Voting is locked");
@@ -75,6 +78,8 @@ contract VotingProperties is Ownable, Maths, Configuration {
 
         _votingStartTime = startTime;
         _votingEndTime = endTime;
+
+        emit NewVotingTimes(startTime, endTime);
     }
 
     function lockVoting() external onlyOwner {
@@ -85,6 +90,7 @@ contract VotingProperties is Ownable, Maths, Configuration {
             );
         }
         _votingConfigurationLocked = true;
+        emit VotingLocked();
     }
 
     function getVotingTimes() external view returns (uint256, uint256) {

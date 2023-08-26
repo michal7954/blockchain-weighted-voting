@@ -11,8 +11,11 @@ interface WeightSourceInterface {
 contract ExplicitValueWeightedVoting is Voting {
     WeightSourceInterface internal _weightSourceInterface;
 
+    event InitVoting(address indexed valueSourceAddress);
+
     constructor(address valueSourceAddress) {
         _weightSourceInterface = WeightSourceInterface(valueSourceAddress);
+        emit InitVoting(valueSourceAddress);
     }
 
     function _getWeight() internal view override returns (uint192) {

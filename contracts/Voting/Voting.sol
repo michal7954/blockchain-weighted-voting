@@ -5,6 +5,8 @@ pragma solidity >=0.7.0 <0.9.0;
 import "contracts/Voting/Counting.sol";
 
 contract Voting is Counting {
+    event VoteCasted(address indexed voter, uint8 indexed votingOption, uint192 weight);
+
     constructor() {}
 
     function vote(uint8 votingOption)
@@ -15,7 +17,9 @@ contract Voting is Counting {
         correctVotingOption(votingOption)
     {
         _voters[msg.sender].voted = true;
-        _votes.push(Vote(msg.sender, votingOption, _getWeight()));
+        uint192 weight = _getWeight();
+        _votes.push(Vote(msg.sender, votingOption, weight));
+        emit VoteCasted(msg.sender, votingOption, weight);
     }
 
     function _getWeight() internal virtual returns (uint192) {
