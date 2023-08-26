@@ -13,34 +13,42 @@ contract VotingProperties is Ownable, Maths, Configuration {
     bool internal _votingConfigurationLocked;
 
     modifier votingConfigurable() {
-        require(_votingConfigurationLocked == false, "Voting is locked");
+        if (!_devMode) {
+            require(_votingConfigurationLocked == false, "Voting is locked");
+        }
         _;
     }
 
     modifier votingOpened() {
-        require(
-            _votingConfigurationLocked == true &&
-                block.timestamp >= _votingStartTime &&
-                block.timestamp < _votingEndTime,
-            "Voting is not started"
-        );
+        if (!_devMode) {
+            require(
+                _votingConfigurationLocked == true &&
+                    block.timestamp >= _votingStartTime &&
+                    block.timestamp < _votingEndTime,
+                "Voting is not started"
+            );
+        }
         _;
     }
 
     modifier votingEnded() {
-        require(
-            _votingConfigurationLocked == true &&
-                block.timestamp >= _votingEndTime,
-            "Voting is not ended"
-        );
+        if (!_devMode) {
+            require(
+                _votingConfigurationLocked == true &&
+                    block.timestamp >= _votingEndTime,
+                "Voting is not ended"
+            );
+        }
         _;
     }
 
     modifier unlockVoting() {
-        require(
-            block.timestamp >= _votingEndTime + _minPhaseTime,
-            "Not ready to unlock voting yet"
-        );
+        if (!_devMode) {
+            require(
+                block.timestamp >= _votingEndTime + _minPhaseTime,
+                "Not ready to unlock voting yet"
+            );
+        }
         _votingConfigurationLocked = false;
         _;
     }
@@ -55,24 +63,28 @@ contract VotingProperties is Ownable, Maths, Configuration {
         external
         onlyOwner
     {
-        require(
-            block.timestamp + _minPhaseTime <= startTime,
-            "Lock period before voting start is not long enough"
-        );
-        require(
-            startTime + _minPhaseTime <= endTime,
-            "Voting period is not long enough"
-        );
+        if (!_devMode) {
+            require(
+                block.timestamp + _minPhaseTime <= startTime,
+                "Lock period before voting start is not long enough"
+            );
+            require(
+                startTime + _minPhaseTime <= endTime,
+                "Voting period is not long enough"
+            );
+        }
 
         _votingStartTime = startTime;
         _votingEndTime = endTime;
     }
 
     function lockVoting() external onlyOwner {
-        require(
-            block.timestamp + _minPhaseTime <= _votingStartTime,
-            "Lock period before voting start is not long enough, you need to change voting times"
-        );
+        if (!_devMode) {
+            require(
+                block.timestamp + _minPhaseTime <= _votingStartTime,
+                "Lock period before voting start is not long enough, you need to change voting times"
+            );
+        }
         _votingConfigurationLocked = true;
     }
 

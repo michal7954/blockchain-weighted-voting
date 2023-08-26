@@ -10,7 +10,7 @@ contract Voters is VotingProperties {
         bool canVote;
         bool voted;
     }
-    
+
     mapping(address => Voter) internal _voters;
 
     modifier senderCanVote() {
@@ -20,14 +20,16 @@ contract Voters is VotingProperties {
     }
 
     constructor() {
-        address[3] memory addresses = [
-            0x5B38Da6a701c568545dCfcB03FcB875f56beddC4,
-            0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2,
-            0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db
-        ];
+        if (_devMode) {
+            address[3] memory addresses = [
+                0x5B38Da6a701c568545dCfcB03FcB875f56beddC4,
+                0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2,
+                0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db
+            ];
 
-        for (uint64 i = 0; i < addresses.length; i++) {
-            _voters[addresses[i]] = Voter(true, false);
+            for (uint64 i = 0; i < addresses.length; i++) {
+                _voters[addresses[i]] = Voter(true, false);
+            }
         }
     }
 

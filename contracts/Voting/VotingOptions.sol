@@ -21,7 +21,9 @@ contract VotingOptions is VotingProperties {
     }
 
     constructor() {
-        _votingOptions = ["A", "B", "C"];
+        if (_devMode) {
+            _votingOptions = ["A", "B", "C"];
+        }
     }
 
     function addVotingOptions(string[] calldata votingOptionsToAdd)
