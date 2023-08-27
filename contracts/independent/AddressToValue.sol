@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract AddressToValue is Ownable {
     mapping(address => uint192) _values;
 
-    event ValueSet(address address_, uint192 value);
+    event ValueSet(address account, uint192 value);
 
     constructor() {
         _values[0x5B38Da6a701c568545dCfcB03FcB875f56beddC4] = 3;
@@ -20,12 +20,12 @@ contract AddressToValue is Ownable {
         emit ValueSet(0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db, 1);
     }
 
-    function setValue(address address_, uint192 value) external onlyOwner {
-        _values[address_] = value;
-        emit ValueSet(address_, value);
+    function setValue(address account, uint192 value) external onlyOwner {
+        _values[account] = value;
+        emit ValueSet(account, value);
     }
 
-    function getValue(address address_) external view returns (uint192) {
-        return _values[address_];
+    function getValue(address account) external view returns (uint192) {
+        return _values[account];
     }
 }

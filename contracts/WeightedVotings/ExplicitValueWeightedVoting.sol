@@ -5,7 +5,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "contracts/Voting/Voting.sol";
 
 interface WeightSourceInterface {
-    function getValue(address address_) external view returns (uint192);
+    function getValue(address account) external view returns (uint192);
 }
 
 contract ExplicitValueWeightedVoting is Voting {

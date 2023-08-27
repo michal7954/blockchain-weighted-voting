@@ -7,9 +7,9 @@ import "contracts/Voting/Maths.sol";
 import "contracts/Voting/Configuration.sol";
 
 contract VotingProperties is Ownable, Maths, Configuration {
-    uint256 internal _votingStartTime;
-    uint256 internal _votingEndTime;
-    bool internal _votingConfigurationLocked;
+    uint256 private _votingStartTime;
+    uint256 private _votingEndTime;
+    bool private _votingConfigurationLocked;
 
     event NewVotingTimes(uint256 startTime, uint256 endTime);
     event VotingLocked();
