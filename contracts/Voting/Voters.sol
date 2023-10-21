@@ -22,11 +22,24 @@ contract Voters is VotingProperties {
     }
 
     constructor() {
-        if (_devMode) {
+        if (_remixTestEnv) {
             address[3] memory addresses = [
                 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4,
                 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2,
                 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db
+            ];
+
+            for (uint64 i = 0; i < addresses.length; i++) {
+                _voters[addresses[i]] = Voter(true, false);
+                emit VoterAdded(addresses[i]);
+            }
+        }
+
+        if (_publicTestEnv) {
+            address[3] memory addresses = [
+                0x8b156952fE7684eE6fC4Ab91cb86Ec4FdD18140F,
+                0xf8b0450A22C20920D4Ece9ccF85160DDBE036b67,
+                0x507fbF58C43740eF4333d127789ab02466FC1dE2
             ];
 
             for (uint64 i = 0; i < addresses.length; i++) {
