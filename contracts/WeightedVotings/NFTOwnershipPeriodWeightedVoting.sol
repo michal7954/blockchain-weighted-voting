@@ -38,7 +38,7 @@ contract NFTOwnershipPeriodWeightedVoting is Voting {
         correctVotingOption(votingOption)
     {
         _voters[msg.sender].voted = true;
-        uint192 weight = _getWeight();
+        uint192 weight = _getWeight(tokenId);
         _votes.push(Vote(msg.sender, votingOption, weight));
         emit VoteCasted(msg.sender, votingOption, tokenId, weight);
     }
