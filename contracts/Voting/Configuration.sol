@@ -4,8 +4,8 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract Configuration {
     bool internal constant _devMode = true;
-    bool internal _remixTestEnv = true;
-    bool internal _publicTestEnv = false;
+    bool internal constant _remixTestEnv = false;
+    bool internal constant _publicTestEnv = true;
     uint256 internal constant _minPhaseTime = 24 hours;
 
     constructor() {}
